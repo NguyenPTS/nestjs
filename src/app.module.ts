@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './tasks/task.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config'; // Import ConfigModule và ConfigService
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TasksModule } from './tasks/tasks.module'; // Thêm dòng này
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Để biến môi trường có thể truy cập toàn cục
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule], // Đảm bảo rằng ConfigModule đã được import
+      imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get<string>('DATABASE_HOST'),
@@ -19,10 +20,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config'; // Import ConfigMo
         database: configService.get<string>('DATABASE_NAME'),
         entities: [Task],
         autoLoadEntities: true,
-        synchronize: true, // Chỉ sử dụng trong môi trường phát triển
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
+    TasksModule, // Thêm dòng này
   ],
 })
 export class AppModule {}

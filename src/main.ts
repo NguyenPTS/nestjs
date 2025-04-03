@@ -8,7 +8,7 @@ async function bootstrap() {
   // Cấu hình Swagger
   const config = new DocumentBuilder()
     .setTitle('Task Manager API')
-    .setDescription('API quản lý công việc')
+    .setDescription('API quản l    ý công việc')
     .setVersion('1.0')
     .build();
 
